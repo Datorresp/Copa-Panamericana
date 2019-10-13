@@ -6,7 +6,7 @@ import model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class EventTest {
+public class EventTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
