@@ -8,6 +8,7 @@ package model;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -84,11 +85,9 @@ public class Event {
         addViewer(v, root);
     }
 
-    public void loadTextFile()throws IOException, CsvException{
+    public void loadTextFile(String csv, String sep)throws IOException, CsvException{
 
-        String csv = "/Users/diegoa.torres/NetBeansProjects/Copa Panamericana de Voleibol Masculino Sub-21/prueba.csv";
-        String sep = ",";
-        
+
         if (csv != null) {
 
             File f = new File (csv);
@@ -268,4 +267,89 @@ public class Event {
         return "Event{" + "name=" + name + '}';
     }
     
+    public void addCompetitor(Competitor c){
+        
+        Competitor aux = first;
+        
+        while (aux != null) {
+            
+            if (aux.getNext() != null) {
+                
+                aux.setNext(c);
+                
+            }else{
+                
+                aux = aux.getNext();
+                
+            }
+        }
+    }
+    
+    public void loadCompetitor(String csv, String sep) throws FileNotFoundException, IOException, CsvException{
+              
+        if (csv != null) {
+
+            File f = new File (csv);
+            FileReader fr = new  FileReader(f);
+            BufferedReader br = new BufferedReader(fr);
+            int i = 0;
+
+            String line = br.readLine();
+
+            while (line != null) {
+
+                System.out.println(line);
+
+                if (line.charAt(0) != '#') {
+                        
+                    String[] parts = line.split(sep);
+                    String id = parts[0];
+                    String name = parts[1];
+                    String LastName = parts[2];
+                    String email = parts[3];
+                    String gender = parts[4];
+                    String country = parts[5];
+                    String photo = parts[6];
+                    String birthday = parts[7];
+                        
+                    Competitor com = new Competitor(id, name, LastName, email, gender, country, photo, birthday);
+                    addCompetitor(com);
+                        
+                    String rutaFichero = "Socio.txt";
+
+                    try{
+
+                        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(rutaFichero));
+                        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(rutaFichero));
+
+                        oos.writeObject(com);
+                        oos.close();
+
+                        Viewer readClient = (Viewer) ois.readObject();
+                        ois.close();
+                        System.out.println("Persona: " + com.toString());
+
+                    }catch (IOException ex) {
+
+                        System.out.println(ex.getMessage());
+                    }catch (ClassNotFoundException ex) {
+
+                        System.out.println(ex.getMessage());
+                    }
+
+
+                    line = br.readLine();
+                   i++; 
+                }
+            }
+        }else{
+
+        throw new CsvException();
+        }        
+    }  
+    
+    public void DrawThree(String country){
+        
+        root.levelPath(country);
+    }
 }

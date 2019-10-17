@@ -55,5 +55,35 @@ public class Viewer extends Person{
         }
     }
     
-    
+    public String levelPath(String Country){
+        
+        String msj = "";
+        
+        if (country.equalsIgnoreCase(Country)) {
+            
+            msj += toString() +'\n';
+            
+            if (left != null && right.country.equalsIgnoreCase(Country)) {
+                
+                msj += left.toString();
+            }
+            msj +='\n';
+            
+            if (right != null && right.country.equalsIgnoreCase(Country)) {
+                
+                msj += right.toString();
+            }
+            
+            msj += '\n';
+            
+        }if (left != null) {
+            
+            msj += left.levelPath(Country);
+        }if (right != null) {
+            
+            msj +=  right.levelPath(Country);
+        }
+        
+        return msj;
+    }
 }
