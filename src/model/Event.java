@@ -7,8 +7,14 @@ package model;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  *
@@ -78,12 +84,11 @@ public class Event {
         addViewer(v, root);
     }
 
-    public void loadTextFile(String csv)throws IOException, CsvException{
+    public void loadTextFile()throws IOException, CsvException{
 
-        csv = "/Users/diegoa.torres/NetBeansProjects/LecturaDeArchivos/prueba.csv";
+        String csv = "/Users/diegoa.torres/NetBeansProjects/Copa Panamericana de Voleibol Masculino Sub-21/prueba.csv";
         String sep = ",";
-        Person pl = null;
-
+        
         if (csv != null) {
 
             File f = new File (csv);
@@ -95,8 +100,10 @@ public class Event {
 
             while (line != null) {
 
-                if (line.charAt(0) != '#') {
+                System.out.println(line);
 
+                if (line.charAt(0) != '#') {
+                        
                     String[] parts = line.split(sep);
                     String id = parts[0];
                     String name = parts[1];
@@ -106,19 +113,42 @@ public class Event {
                     String country = parts[5];
                     String photo = parts[6];
                     String birthday = parts[7];
+                        
+                    Viewer cl = new Viewer(id, name, LastName, email, gender, country, photo, birthday);
+                    addViewrFinal(cl);
+                        
+                    String rutaFichero = "Socio.txt";
 
-                    pl = new Viewer(id, name, LastName, email, gender, country, photo, birthday);
-                    addViewrFinal((Viewer) pl);
+                    try{
+
+                        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(rutaFichero));
+                        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(rutaFichero));
+
+                        oos.writeObject(cl);
+                        oos.close();
+
+                        Viewer readClient = (Viewer) ois.readObject();
+                        ois.close();
+                        System.out.println("Persona: " + cl.toString());
+
+                    }catch (IOException ex) {
+
+                        System.out.println(ex.getMessage());
+                    }catch (ClassNotFoundException ex) {
+
+                        System.out.println(ex.getMessage());
+                    }
+
+
                     line = br.readLine();
-                    i++; 
-
+                   i++; 
                 }
             }
         }else{
-            
-            throw new CsvException();
+
+        throw new CsvException();
         }
-    }  
+    }
     
     public Viewer searchViewerNormal(String id, Viewer roott) throws DoesntExistException{
         
@@ -238,5 +268,4 @@ public class Event {
         return "Event{" + "name=" + name + '}';
     }
     
-     
 }

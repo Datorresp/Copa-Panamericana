@@ -72,12 +72,18 @@ public class Window {
 
     private void loadPeople() throws IOException, CsvException {
         
-        System.out.println("Cargar archivo csv: " + '\n');
-        System.out.println("Digite la ruta del archivo: " + '\n');
-        System.out.println("Ejemplo: " + '\n' + "/Users/diegoa.torres/NetBeansProjects/LecturaDeArchivos/prueba.csv");
+//        System.out.println("Cargar archivo csv: " + '\n');
+//        System.out.println("Digite la ruta del archivo: " + '\n');
+//        System.out.println("Ejemplo: " + '\n' + "/Users/diegoa.torres/NetBeansProjects/LecturaDeArchivos/prueba.csv");
+//        
+//        String csv = reader.nextLine();
+//        
+//        System.out.println("Digite El simbolo de separacion: " + '\n');
+//        System.out.println("Ejemplo: " + '\n' + ", o ;");
+//        
+//        String sep = reader.nextLine();
         
-        String csv = reader.nextLine();
-        e.loadTextFile(csv);
+        e.loadTextFile();
     }
     
     private  void searchPeople() throws DoesntExistException{
