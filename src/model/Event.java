@@ -18,9 +18,11 @@ public class Event {
 
     private Viewer root;
     private Competitor first;
+    private String name;
 
-    public Event() {
+    public Event(String name) {
 
+        this.name = name;
     }
     
     public Viewer getRoot() {
@@ -230,6 +232,11 @@ public class Event {
             throw new DoesntExistException();
         }
     }
+
+    @Override
+    public String toString() {
+        return "Event{" + "name=" + name + '}';
+    }
     
-    
+     
 }

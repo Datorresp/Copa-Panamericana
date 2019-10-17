@@ -22,13 +22,19 @@ public class Window {
     
     public Window(){
         
-        reader = new Scanner(System.in);        
+        reader = new Scanner(System.in); 
+        init();
+        
     }
     
     public void controller() throws IOException, CsvException, DoesntExistException{
         
+        System.out.println("1. Cargar Archivo");
+        System.out.println("2. Buscar Espectador");
+        System.out.println("3. Borrar Espectador");
         int userInput = reader.nextInt();
         boolean exit = false;
+
         
         while (!exit) {
             
@@ -51,8 +57,15 @@ public class Window {
                     
                     break;
                     
+                case 4:
+                    
+                    toStrings();
+                
+                    break;
+                    
                 default:
-                    throw new AssertionError();
+                    
+                    exit = true;
             }
         }        
     }
@@ -69,23 +82,68 @@ public class Window {
     
     private  void searchPeople() throws DoesntExistException{
         
-        
-        System.out.println("Modulo de buscar: " + '\n');
-        System.out.println("Digite el id de la persona a buscar:  " + '\n');
-        
-        String id = reader.nextLine();
-        
-        System.out.println(e.searchViewerNormal(id, e.getRoot()));
+        try {
+            
+            System.out.println("Modulo de buscar: " + '\n');
+            System.out.println("Digite el id de la persona a buscar:  " + '\n');
+
+            String id = reader.nextLine();
+
+            System.out.println(e.searchViewerNormal(id, e.getRoot()));
+            
+        } catch (IndexOutOfBoundsException e) {
+            
+                        
+            System.out.println("Modulo de buscar: " + '\n');
+            System.out.println("Digite el id de la persona a buscar:  " + '\n');
+            System.out.println("El valor digitado no corresponde:");         
+            reader.nextLine();
+
+        }
     }
     
     private void delatePeople() throws DoesntExistException{
         
-        System.out.println("Modulo Eliminar espectadores: " + '\n');
-        System.out.println("Digite el id de la persona a eliminar: " + '\n');
+        try{
+            
+            
+            System.out.println("Modulo Eliminar espectadores: " + '\n');
+            System.out.println("Digite el id de la persona a eliminar: " + '\n');
+
+            String id = reader.nextLine();
+
+            e.delateViewer(id, e.getRoot());
+        }catch (IndexOutOfBoundsException e) {
+            
+                        
+            System.out.println("Modulo de buscar: " + '\n');
+            System.out.println("Digite el id de la persona a buscar:  " + '\n');
+            System.out.println("El valor digitado no corresponde:");         
+            reader.nextLine();
+
+        }catch (DoesntExistException e){
+            
+                        
+            System.out.println("Modulo de buscar: " + '\n');
+            System.out.println("Digite el id de la persona a buscar:  " + '\n');
+            System.out.println("El expectador no existe ");
+            reader.nextLine();
+        }
+    }   
+    
+    public void toStrings(){
+         
+        e.toString();
+    } 
+    
+    public void addEvent(Event e){
         
-        String id = reader.nextLine();
-        
-        e.delateViewer(id, e.getRoot());
+        e = new Event("Copa");
     }
     
+    public void init(){
+        
+        e=new Event("Copa");
+        
+    }
 }
