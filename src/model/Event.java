@@ -53,31 +53,39 @@ public class Event {
     
     public void addViewer(Viewer v, Viewer roott){
         
-        if (roott == null) {
+        if (roott.getLeft() == v || roott.getRight() == v) {
             
-            roott = v;
-        }else{
             
-            if (v.getId().compareTo(roott.getId()) > 0) {
+            
+        }else{            
+               
+            if (roott == null) {
+
+                roott = v;
                 
-                if (roott.getLeft() == null) {
-                    
-                    roott.setLeft(v);
-                }else{
-                    
-                    addViewer(v, roott.getLeft());
-                }
             }else{
-                
-                if (roott.getRight() == null) {
-                    
-                    roott.setRight(v);
+
+                if (v.getId().compareTo(roott.getId()) > 0) {
+
+                    if (roott.getLeft() == null) {
+
+                        roott.setLeft(v);
+                    }else{
+
+                        addViewer(v, roott.getLeft());
+                    }
                 }else{
-                    
-                    addViewer(v, roott.getRight());
+
+                    if (roott.getRight() == null) {
+
+                        roott.setRight(v);
+                    }else{
+
+                        addViewer(v, roott.getRight());
+                    }
                 }
-            }
-        }       
+            } 
+        }    
     }
     
     public void addViewrFinal(Viewer v){
